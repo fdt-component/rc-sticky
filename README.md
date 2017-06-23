@@ -1,6 +1,10 @@
 # rc sticky
 
-...
+解决 position:sticky 兼容问题
+
+```
+npm install rc-sticky --save
+```
 
 ## START
 
