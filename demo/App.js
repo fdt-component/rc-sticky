@@ -30,7 +30,7 @@ class App extends React.PureComponent {
         {times(10).map(() => (
           <div key={uniqueId()} style={styles.item}>I am item</div>
         ))}
-        <Sticky top={40}>
+        <Sticky height={50} top={40} >
           <div key={uniqueId()} style={styles.stickyItem}>
             I am sticky item 2
           </div>

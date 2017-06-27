@@ -138,7 +138,9 @@ var Sticky = function (_React$PureComponent) {
   _createClass(Sticky, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var top = this.props.top;
+      var _props = this.props,
+          top = _props.top,
+          height = _props.height;
 
       this.el = __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.findDOMNode(this);
       if (!!this.supportSticky()) {
@@ -147,7 +149,7 @@ var Sticky = function (_React$PureComponent) {
         return;
       }
       this.child = this.el.firstChild;
-      this.el.style.height = this.child.offsetHeight + 'px';
+      this.el.style.height = !!height ? height + 'px' : this.child.offsetHeight + 'px';
       this.child.classList.add(__WEBPACK_IMPORTED_MODULE_3__index_less___default.a.child);
       this.child.style.top = top + 'px';
       this.scrollNode = this.getScrollParent(this.el);
@@ -196,6 +198,7 @@ Sticky.defaultProps = {
 };
 
 Sticky.propTypes = {
+  height: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
   top: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number
 };
 

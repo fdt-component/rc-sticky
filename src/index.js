@@ -6,7 +6,7 @@ import styles from './index.less';
 class Sticky extends React.PureComponent {
   fixed = false
   componentDidMount() {
-    const {top} = this.props;
+    const {top, height} = this.props;
     this.el = ReactDOM.findDOMNode(this);
     if (!!this.supportSticky()) {
       this.el.classList.add(styles.child);
@@ -14,7 +14,7 @@ class Sticky extends React.PureComponent {
       return;
     }
     this.child = this.el.firstChild;
-    this.el.style.height = `${this.child.offsetHeight}px`;
+    this.el.style.height = !!height ? `${height}px` : `${this.child.offsetHeight}px`;
     this.child.classList.add(styles.child);
     this.child.style.top = `${top}px`;
     this.scrollNode = this.getScrollParent(this.el);
@@ -69,7 +69,8 @@ Sticky.defaultProps = {
 };
 
 Sticky.propTypes = {
-  top: PropTypes.number,
+  height: PropTypes.number,
+  top: PropTypes.number
 };
 
 export default Sticky;
