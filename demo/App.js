@@ -27,6 +27,14 @@ class App extends React.PureComponent {
             I am sticky item
           </div>
         </Sticky>
+        {times(10).map(() => (
+          <div key={uniqueId()} style={styles.item}>I am item</div>
+        ))}
+        <Sticky top={40}>
+          <div key={uniqueId()} style={styles.stickyItem}>
+            I am sticky item 2
+          </div>
+        </Sticky>
         {times(100).map(() => (
           <div key={uniqueId()} style={styles.item}>I am item</div>
         ))}

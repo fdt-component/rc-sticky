@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("react-dom"));
+		module.exports = factory(require("prop-types"), require("react"), require("react-dom"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "react-dom"], factory);
+		define(["prop-types", "react", "react-dom"], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("react"), require("react-dom")) : factory(root["React"], root["ReactDOM"]);
+		var a = typeof exports === 'object' ? factory(require("prop-types"), require("react"), require("react-dom")) : factory(root["PropTypes"], root["React"], root["ReactDOM"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_6__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -82,12 +82,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__index_less__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__index_less__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__index_less__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__index_less__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -95,6 +97,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -117,16 +120,16 @@ var Sticky = function (_React$PureComponent) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sticky.__proto__ || Object.getPrototypeOf(Sticky)).call.apply(_ref, [this].concat(args))), _this), _this.fixed = false, _this.supportSticky = function () {
       return !!_this.cssSupport('position', 'sticky');
     }, _this.handleScroll = function () {
-      var top = _this.el.getBoundingClientRect().top;
+      var top = Number(_this.el.getBoundingClientRect().top) - _this.props.top;
       if (top < 0 && !_this.fixed) {
-        _this.child.classList.add(__WEBPACK_IMPORTED_MODULE_2__index_less___default.a.sticky);
+        _this.child.classList.add(__WEBPACK_IMPORTED_MODULE_3__index_less___default.a.sticky);
         _this.fixed = true;
       } else if (top > 0 && _this.fixed) {
-        _this.child.classList.remove(__WEBPACK_IMPORTED_MODULE_2__index_less___default.a.sticky);
+        _this.child.classList.remove(__WEBPACK_IMPORTED_MODULE_3__index_less___default.a.sticky);
         _this.fixed = false;
       }
     }, _this.getScrollParent = function (node) {
-      if (node === null) return null;
+      if (!node || node === document.documentElement) return window;
       if (node.scrollHeight > node.clientHeight) return node;
       return _this.getScrollParent(node.parentNode);
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -135,14 +138,18 @@ var Sticky = function (_React$PureComponent) {
   _createClass(Sticky, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var top = this.props.top;
+
       this.el = __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.findDOMNode(this);
       if (!!this.supportSticky()) {
-        this.el.classList.add(__WEBPACK_IMPORTED_MODULE_2__index_less___default.a.child);
+        this.el.classList.add(__WEBPACK_IMPORTED_MODULE_3__index_less___default.a.child);
+        this.el.style.top = top + 'px';
         return;
       }
       this.child = this.el.firstChild;
-      this.el.style.height = this.child.clientHeight + 'px';
-      this.child.classList.add(__WEBPACK_IMPORTED_MODULE_2__index_less___default.a.child);
+      this.el.style.height = this.child.offsetHeight + 'px';
+      this.child.classList.add(__WEBPACK_IMPORTED_MODULE_3__index_less___default.a.child);
+      this.child.style.top = top + 'px';
       this.scrollNode = this.getScrollParent(this.el);
       if (this.scrollNode) {
         this.scrollNode.addEventListener('scroll', this.handleScroll);
@@ -184,9 +191,13 @@ var Sticky = function (_React$PureComponent) {
   return Sticky;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.PureComponent);
 
-Sticky.defaultProps = {};
+Sticky.defaultProps = {
+  top: 0
+};
 
-Sticky.propTypes = {};
+Sticky.propTypes = {
+  top: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (Sticky);
 
@@ -199,7 +210,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, ".index__sticky-2hHaw{position:fixed;left:0;right:0;margin:0}.index__child-3-vfg{position:-webkit-sticky;position:sticky;top:0;z-index:1}", ""]);
+exports.push([module.i, ".index__sticky-2hHaw{position:fixed!important;left:0;right:0;margin:0}.index__child-3-vfg{position:-webkit-sticky;position:sticky;top:0;z-index:1}", ""]);
 
 // exports
 exports.locals = {
@@ -720,6 +731,12 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(0);

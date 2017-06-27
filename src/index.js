@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import styles from './index.less';
 
 class Sticky extends React.PureComponent {
   fixed = false
   componentDidMount() {
+    const {top} = this.props;
     this.el = ReactDOM.findDOMNode(this);
     if (!!this.supportSticky()) {
       this.el.classList.add(styles.child);
+      this.el.style.top = `${top}px`;
       return;
     }
     this.child = this.el.firstChild;
-    this.el.style.height = `${this.child.clientHeight}px`;
+    this.el.style.height = `${this.child.offsetHeight}px`;
     this.child.classList.add(styles.child);
+    this.child.style.top = `${top}px`;
     this.scrollNode = this.getScrollParent(this.el);
     if (this.scrollNode) {
       this.scrollNode.addEventListener('scroll', this.handleScroll);
@@ -36,7 +40,7 @@ class Sticky extends React.PureComponent {
   }
   supportSticky = () => !!this.cssSupport('position', 'sticky')
   handleScroll = () => {
-    const top = this.el.getBoundingClientRect().top;
+    const top = Number(this.el.getBoundingClientRect().top) - this.props.top;
     if (top < 0 && !this.fixed) {
       this.child.classList.add(styles.sticky);
       this.fixed = true;
@@ -46,7 +50,7 @@ class Sticky extends React.PureComponent {
     }
   }
   getScrollParent = node => {
-    if (node === null) return null;
+    if (!node || node === document.documentElement) return window;
     if (node.scrollHeight > node.clientHeight) return node;
     return this.getScrollParent(node.parentNode);
   }
@@ -60,8 +64,12 @@ class Sticky extends React.PureComponent {
   }
 }
 
-Sticky.defaultProps = {};
+Sticky.defaultProps = {
+  top: 0,
+};
 
-Sticky.propTypes = {};
+Sticky.propTypes = {
+  top: PropTypes.number,
+};
 
 export default Sticky;
