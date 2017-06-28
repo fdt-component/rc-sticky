@@ -130,7 +130,7 @@ var Sticky = function (_React$PureComponent) {
       }
     }, _this.getScrollParent = function (node) {
       if (!node || node === document.documentElement) return window;
-      if (node.scrollHeight > node.clientHeight) return node;
+      if (node.scrollHeight > node.offsetHeight) return node;
       return _this.getScrollParent(node.parentNode);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }

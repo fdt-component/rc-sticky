@@ -51,7 +51,7 @@ class Sticky extends React.PureComponent {
   }
   getScrollParent = node => {
     if (!node || node === document.documentElement) return window;
-    if (node.scrollHeight > node.clientHeight) return node;
+    if (node.scrollHeight > node.offsetHeight) return node;
     return this.getScrollParent(node.parentNode);
   }
   render() {

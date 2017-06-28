@@ -53,7 +53,7 @@
     "webpack-umd-external": "^1.0.2"
   },
   "dependencies": {
-    "prop-types": "^15.5.9",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-css-modules": "^4.0.5",
     "react-dom": "^15.5.4"
